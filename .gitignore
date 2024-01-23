@@ -1,7 +1,6 @@
 .DS_Store
 .env
 storage/
-engine
 views/*_templ.go
 tmp/
-
+app

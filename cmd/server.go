@@ -3,11 +3,13 @@ package main
 import (
 	"log"
 	"log/slog"
+	"os"
+	"os/signal"
+
+	"luuhai48/short/db"
 	"luuhai48/short/static"
 	"luuhai48/short/utils"
 	"luuhai48/short/views"
-	"os"
-	"os/signal"
 
 	"github.com/a-h/templ"
 	"github.com/bytedance/sonic"
@@ -28,6 +30,17 @@ func startServer(ctx *cli.Context) error {
 	server.Use(
 		recover.New(recover.Config{EnableStackTrace: true}),
 	)
+
+	if err := db.Init(); err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	if !fiber.IsChild() {
+		if err := migrateDB(); err != nil {
+			log.Fatal(err)
+		}
+	}
 
 	server.Get("", adaptor.HTTPHandler(templ.Handler(views.Index())))
 

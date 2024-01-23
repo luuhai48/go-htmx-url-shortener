@@ -37,7 +37,7 @@ func Init() error {
 	return nil
 }
 
-func CloseDB() {
+func Close() {
 	db, err := DB.DB()
 	if err != nil {
 		log.Fatal(err)

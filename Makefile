@@ -19,4 +19,3 @@ build: prepare build-app
 
 kill:
 	kill $(lsof -t -i tcp:3333)
-
