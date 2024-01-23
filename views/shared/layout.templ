@@ -1,4 +1,4 @@
-package views
+package shared
 
 import (
 	"luuhai48/short/static"
@@ -18,7 +18,7 @@ type Config struct {
 	SEO   *SEO
 }
 
-templ layout(config ...Config) {
+templ Layout(config ...Config) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
@@ -26,7 +26,7 @@ templ layout(config ...Config) {
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 			<link rel="icon" href="/static/favicon.png"/>
 			<link rel="stylesheet" href={ static.GetFilePath("style.css") }/>
-			<script defer src={ static.GetFilePath("htmx.min.js") }></script>
+			<script defer src={ static.GetFilePath("htmx-1.9.10.min.js") }></script>
 			if len(config) > 0 {
 				if config[0].Title != "" {
 					<title>{ config[0].Title }</title>

@@ -1,0 +1,62 @@
+package shared
+
+type InputConfig struct {
+	Id          string
+	Type        string
+	Classes     string
+	Placeholder string
+	Disabled    bool
+	Label       string
+	Required    bool
+}
+
+templ Input(config InputConfig) {
+	<div>
+		if config.Label != "" {
+			<label
+ 				class="inline-block mb-2 font-medium"
+ 				if config.Id != "" {
+					for={ config.Id }
+				}
+			>
+				{ config.Label }
+				if config.Required {
+					<span class="text-red-500">*</span>
+				}
+			</label>
+		}
+		<input
+ 			id={ config.Id }
+ 			name={ config.Id }
+ 			type={ config.Type }
+ 			class={ "block w-full border border-gray-400 rounded px-3 py-2", config.Classes }
+ 			placeholder={ config.Placeholder }
+ 			if config.Disabled {
+				disabled
+			}
+ 			if config.Required {
+				required
+			}
+		/>
+	</div>
+}
+
+type ButtonConfig struct {
+	Id       string
+	Type     string
+	Disabled bool
+	Classes  string
+}
+
+templ Button(config ButtonConfig) {
+	<button
+ 		id={ config.Id }
+ 		type={ config.Type }
+ 		if config.Disabled {
+			disabled
+		}
+ 		class={ "block w-full bg-blue-600 text-white rounded px-3 py-2", config.Classes }
+	>
+		{ children... }
+	</button>
+}

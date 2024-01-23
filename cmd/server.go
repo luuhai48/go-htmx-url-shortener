@@ -10,6 +10,7 @@ import (
 	"luuhai48/short/static"
 	"luuhai48/short/utils"
 	"luuhai48/short/views"
+	"luuhai48/short/views/signup"
 
 	"github.com/a-h/templ"
 	"github.com/bytedance/sonic"
@@ -43,6 +44,7 @@ func startServer(ctx *cli.Context) error {
 	}
 
 	server.Get("", adaptor.HTTPHandler(templ.Handler(views.Index())))
+	server.Get("/signup", adaptor.HTTPHandler(templ.Handler(signup.Index())))
 
 	server.Use(
 		"/static",

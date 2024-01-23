@@ -5,6 +5,7 @@ run:
 	@go run cmd/*.go
 
 temp:
+	rm ./**/*_templ.go || true
 	@templ generate
 
 tailwind:

@@ -1,0 +1,57 @@
+package signup
+
+import "luuhai48/short/views/shared"
+
+templ Form() {
+	<form method="POST" hx-post="/signup" hx-swap="innerHTML" hx-target="#signup-form">
+		<div class="grid gap-5">
+			@shared.Input(shared.InputConfig{
+				Id: "username",
+				Type: "text",
+				Placeholder: "Enter username",
+				Label: "Username",
+				Required: true,
+			})
+			@shared.Input(shared.InputConfig{
+				Id: "password",
+				Type: "password",
+				Placeholder: "Enter password",
+				Label: "Password",
+				Required: true,
+			})
+			@shared.Input(shared.InputConfig{
+				Id: "passwordConfirm",
+				Type: "password",
+				Placeholder: "Enter password again",
+				Label: "Confirm Password",
+				Required: true,
+			})
+			@shared.Button(shared.ButtonConfig{
+				Id: "submit-btn",
+				Type: "submit",
+			}) {
+				Sign Up
+			}
+		</div>
+	</form>
+}
+
+templ Index() {
+	@shared.Layout(shared.Config{
+		Title: "Sign Up",
+		SEO: &shared.SEO{
+			Title: "Sign Up - URL Shortener",
+			Keywords: "sign up, url shortener",
+			Type: "website",
+			Image: "/static/logo.webp",
+		},
+	}) {
+		<div class="min-h-screen w-full flex justify-center bg-gray-50">
+			<div class="max-w-sm w-full mt-20">
+				<div id="signup-form" class="bg-white shadow-md rounded-lg px-8 py-6">
+					@Form()
+				</div>
+			</div>
+		</div>
+	}
+}

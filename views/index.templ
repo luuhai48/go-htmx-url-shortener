@@ -1,9 +1,11 @@
 package views
 
+import "luuhai48/short/views/shared"
+
 templ Index() {
-	@layout(Config{
+	@shared.Layout(shared.Config{
 		Title: "URL Shortener - GoHTMX Tech Stack",
-		SEO: &SEO{
+		SEO: &shared.SEO{
 			Title: "URL Shortener - GoHTMX Tech Stack",
 			Description: "Simple URL Shortener Using Best Simple Tech Stack",
 			Keywords: "url shortener, golang, htmx, simple",
