@@ -1,0 +1,62 @@
+package views
+
+import (
+	"luuhai48/short/static"
+)
+
+type SEO struct {
+	Title       string
+	Description string
+	Keywords    string
+	SiteName    string
+	Type        string
+	Image       string
+}
+
+type Config struct {
+	Title string
+	SEO   *SEO
+}
+
+templ layout(config ...Config) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<link rel="icon" href="/static/favicon.png"/>
+			<link rel="stylesheet" href={ static.GetFilePath("style.css") }/>
+			<script defer src={ static.GetFilePath("htmx.min.js") }></script>
+			if len(config) > 0 {
+				if config[0].Title != "" {
+					<title>{ config[0].Title }</title>
+				}
+				if config[0].SEO != nil {
+					if config[0].SEO.Description != "" {
+						<meta name="description" content={ config[0].SEO.Description }/>
+						<meta name="og:description" content={ config[0].SEO.Description }/>
+					}
+					if config[0].SEO.Keywords != "" {
+						<meta name="keywords" content={ config[0].SEO.Keywords }/>
+					}
+					if config[0].SEO.Title != "" {
+						<meta name="og:title" content={ config[0].SEO.Title }/>
+					}
+					if config[0].SEO.SiteName != "" {
+						<meta name="og:site_name" content={ config[0].SEO.SiteName }/>
+					}
+					if config[0].SEO.Type != "" {
+						<meta name="og:type" content={ config[0].SEO.Type }/>
+					}
+					if config[0].SEO.Image != "" {
+						<meta name="og:image" content={ config[0].SEO.Image }/>
+					}
+				}
+			}
+		</head>
+		<body>
+			{ children... }
+		</body>
+	</html>
+}
+
