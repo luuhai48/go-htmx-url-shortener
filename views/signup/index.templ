@@ -2,7 +2,21 @@ package signup
 
 import "luuhai48/short/views/shared"
 
-templ Form() {
+type SignupErrors struct {
+	Username        string
+	Password        string
+	PasswordConfirm string
+}
+
+type SignupParams struct {
+	Username        string
+	Password        string
+	PasswordConfirm string
+	HasError        bool
+	Errors          SignupErrors
+}
+
+templ Form(params SignupParams) {
 	<form method="POST" hx-post="/signup" hx-swap="innerHTML" hx-target="#signup-form">
 		<div class="grid gap-5">
 			@shared.Input(shared.InputConfig{
@@ -11,6 +25,8 @@ templ Form() {
 				Placeholder: "Enter username",
 				Label: "Username",
 				Required: true,
+				Value: params.Username,
+				Error: params.Errors.Username,
 			})
 			@shared.Input(shared.InputConfig{
 				Id: "password",
@@ -18,6 +34,8 @@ templ Form() {
 				Placeholder: "Enter password",
 				Label: "Password",
 				Required: true,
+				Value: params.Password,
+				Error: params.Errors.Password,
 			})
 			@shared.Input(shared.InputConfig{
 				Id: "passwordConfirm",
@@ -25,15 +43,25 @@ templ Form() {
 				Placeholder: "Enter password again",
 				Label: "Confirm Password",
 				Required: true,
+				Value: params.PasswordConfirm,
+				Error: params.Errors.PasswordConfirm,
 			})
 			@shared.Button(shared.ButtonConfig{
 				Id: "submit-btn",
 				Type: "submit",
+				Classes: "mt-4",
 			}) {
 				Sign Up
 			}
 		</div>
 	</form>
+}
+
+templ Success() {
+	<div class="grid gap-5">
+		<h2>Successfully signed up. You can now login</h2>
+		<a href="/login" class="block w-full bg-blue-600 text-white rounded px-3 py-2 hover:bg-blue-500 transition-all mt-4 text-center">Login</a>
+	</div>
 }
 
 templ Index() {
@@ -48,8 +76,9 @@ templ Index() {
 	}) {
 		<div class="min-h-screen w-full flex justify-center bg-gray-50">
 			<div class="max-w-sm w-full mt-20">
+				<h1 class="text-center text-2xl font-bold mb-5">Sign Up</h1>
 				<div id="signup-form" class="bg-white shadow-md rounded-lg px-8 py-6">
-					@Form()
+					@Form(SignupParams{Errors: SignupErrors{}})
 				</div>
 			</div>
 		</div>

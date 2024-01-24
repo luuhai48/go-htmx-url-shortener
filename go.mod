@@ -5,9 +5,11 @@ go 1.21.6
 require (
 	github.com/a-h/templ v0.2.513
 	github.com/bytedance/sonic v1.10.2
+	github.com/go-passwd/validator v0.0.0-20180902184246-0b4c967e436b
 	github.com/gofiber/fiber/v2 v2.52.0
 	github.com/google/uuid v1.5.0
 	github.com/urfave/cli/v2 v2.27.1
+	github.com/valyala/fasthttp v1.51.0
 	gorm.io/driver/sqlite v1.5.4
 	gorm.io/gorm v1.25.5
 )
@@ -29,7 +31,6 @@ require (
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasthttp v1.51.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/xrash/smetrics v0.0.0-20231213231151-1d8dd44e695e // indirect
 	golang.org/x/arch v0.7.0 // indirect

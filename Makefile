@@ -5,8 +5,8 @@ run:
 	@go run cmd/*.go
 
 temp:
-	rm ./**/*_templ.go || true
-	@templ generate
+	find . -name "*_templ.go" -delete
+	templ generate
 
 tailwind:
 	@tailwindcss -i ./style.pcss -o ./static/files/style.css --postcss

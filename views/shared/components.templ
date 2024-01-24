@@ -8,6 +8,8 @@ type InputConfig struct {
 	Disabled    bool
 	Label       string
 	Required    bool
+	Value       string
+	Error       string
 }
 
 templ Input(config InputConfig) {
@@ -37,7 +39,11 @@ templ Input(config InputConfig) {
  			if config.Required {
 				required
 			}
+ 			value={ config.Value }
 		/>
+		if config.Error != "" {
+			<p class="text-red-500 text-sm">{ config.Error }</p>
+		}
 	</div>
 }
 
@@ -55,7 +61,7 @@ templ Button(config ButtonConfig) {
  		if config.Disabled {
 			disabled
 		}
- 		class={ "block w-full bg-blue-600 text-white rounded px-3 py-2", config.Classes }
+ 		class={ "block w-full bg-blue-600 text-white rounded px-3 py-2 hover:bg-blue-500 transition-all text-center", config.Classes }
 	>
 		{ children... }
 	</button>
