@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"errors"
+	"net/url"
 	"strings"
 	"time"
 
@@ -85,7 +86,24 @@ func HandlePostSignin(c *fiber.Ctx) error {
 		}
 
 		c.Cookie(cookie)
-		return redirect(c, "/")
+
+		next := c.Query("next", "/")
+		if c.Get("Hx-Current-Url") != "" {
+			u, err := url.Parse(c.Get("Hx-Current-Url"))
+			if err == nil {
+				n := u.Query().Get("next")
+				if n != "" {
+					next = n
+				}
+			}
+		}
+
+		parsed, err := url.QueryUnescape(next)
+		if err == nil {
+			next = parsed
+		}
+
+		return redirect(c, next)
 	}
 
 	return render(c, signin.Form(params))

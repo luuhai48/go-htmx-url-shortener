@@ -57,6 +57,10 @@ templ Form(params SigninParams) {
 			}) {
 				Sign In
 			}
+			<p class="text-sm">
+				Have no account?
+				<a href="/signup" class="text-blue-500 hover:underline">Sign up now</a>
+			</p>
 			if params.Errors.General != "" {
 				<p class="mt-1 text-red-500 text-sm">{ params.Errors.General }</p>
 			}

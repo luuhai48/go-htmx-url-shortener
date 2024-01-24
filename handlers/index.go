@@ -14,10 +14,19 @@ func render(c *fiber.Ctx, comp templ.Component) error {
 	return nil
 }
 
-func redirect(c *fiber.Ctx, path string) error {
-	c.Set("HX-Redirect", path)
-	c.Status(200)
-	return nil
+func redirect(c *fiber.Ctx, path string, status ...int) error {
+	if len(status) > 0 {
+		c.Status(status[0])
+	} else {
+		c.Status(200)
+	}
+
+	if c.Get("Hx-Request") != "" {
+		c.Set("HX-Redirect", path)
+		return nil
+	}
+
+	return c.Redirect(path)
 }
 
 func HandleGetHomeIndex(c *fiber.Ctx) error {

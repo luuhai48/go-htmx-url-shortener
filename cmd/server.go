@@ -48,6 +48,8 @@ func startServer(ctx *cli.Context) error {
 	server.Get("/signin", handlers.HandleGetSigninIndex)
 	server.Post("/signin", handlers.HandlePostSignin)
 
+	server.Get("/_url", handlers.AuthMiddleware, handlers.HandleUrlHomeIndex)
+
 	server.Use(
 		"/static",
 		compress.New(compress.Config{

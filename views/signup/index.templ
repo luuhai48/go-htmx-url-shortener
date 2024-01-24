@@ -61,12 +61,16 @@ templ Form(params SignupParams) {
 			}) {
 				Sign Up
 			}
+			<p class="text-sm">
+				Already have an account?
+				<a href="/signin" class="text-blue-500 hover:underline">Sign in now</a>
+			</p>
 		</div>
 	</form>
 }
 
 templ Success() {
-	<div class="grid gap-5">
+	<div class="px-8 py-6 grid gap-5">
 		<h2>Successfully signed up. You can now sign in</h2>
 		<a href="/signin" class="block w-full bg-blue-600 text-white rounded px-3 py-2 hover:bg-blue-500 transition-all mt-4 text-center">Sign in</a>
 	</div>
