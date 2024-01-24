@@ -1,0 +1,68 @@
+package signin
+
+import "luuhai48/short/views/shared"
+
+type SigninErrors struct {
+	Username string
+	Password string
+}
+
+type SigninParams struct {
+	Username string
+	Password string
+	HasError bool
+	Errors   SigninErrors
+}
+
+templ Form(params SigninParams) {
+	<form method="POST" hx-post="/signin" hx-swap="innerHTML" hx-target="#signin-form">
+		<div class="grid gap-5">
+			@shared.Input(shared.InputConfig{
+				Id: "username",
+				Type: "text",
+				Placeholder: "Enter username",
+				Label: "Username",
+				Required: true,
+				Value: params.Username,
+				Error: params.Errors.Username,
+			})
+			@shared.Input(shared.InputConfig{
+				Id: "password",
+				Type: "password",
+				Placeholder: "Enter password",
+				Label: "Password",
+				Required: true,
+				Value: params.Password,
+				Error: params.Errors.Password,
+			})
+			@shared.Button(shared.ButtonConfig{
+				Id: "submit-btn",
+				Type: "submit",
+				Classes: "mt-4",
+			}) {
+				Sign In
+			}
+		</div>
+	</form>
+}
+
+templ Index() {
+	@shared.Layout(shared.Config{
+		Title: "Sign In",
+		SEO: &shared.SEO{
+			Title: "Sign In - URL Shortener",
+			Keywords: "sign in, url shortener",
+			Type: "website",
+			Image: "/static/logo.webp",
+		},
+	}) {
+		<div class="min-h-screen w-full flex justify-center bg-gray-50">
+			<div class="max-w-sm w-full mt-20">
+				<h1 class="text-center text-2xl font-bold mb-5">Sign In</h1>
+				<div id="signin-form" class="bg-white shadow-md rounded-lg px-8 py-6">
+					@Form(SigninParams{Errors: SigninErrors{}})
+				</div>
+			</div>
+		</div>
+	}
+}

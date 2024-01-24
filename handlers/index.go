@@ -14,6 +14,12 @@ func render(c *fiber.Ctx, comp templ.Component) error {
 	return nil
 }
 
+func redirect(c *fiber.Ctx, path string) error {
+	c.Set("HX-Redirect", path)
+	c.Status(200)
+	return nil
+}
+
 func HandleGetHomeIndex(c *fiber.Ctx) error {
 	return render(c, views.Index())
 }

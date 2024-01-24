@@ -45,6 +45,9 @@ func startServer(ctx *cli.Context) error {
 	server.Get("/signup", handlers.HandleGetSignupIndex)
 	server.Post("/signup", handlers.HandlePostSignup)
 
+	server.Get("/signin", handlers.HandleGetSigninIndex)
+	server.Post("/signin", handlers.HandlePostSignin)
+
 	server.Use(
 		"/static",
 		compress.New(compress.Config{

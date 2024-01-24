@@ -37,3 +37,11 @@ func CheckUsernameExists(username string) (bool, error) {
 	}
 	return exists, nil
 }
+
+func FindUserByUsername(username string) (*User, error) {
+	var user User
+	if err := db.DB.Where("username = ?", username).First(&user).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
