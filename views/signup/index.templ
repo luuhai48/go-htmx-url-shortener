@@ -17,7 +17,15 @@ type SignupParams struct {
 }
 
 templ Form(params SignupParams) {
-	<form method="POST" hx-post="/signup" hx-swap="innerHTML" hx-target="#signup-form">
+	<form
+ 		class="relative px-8 py-6"
+ 		method="POST"
+ 		hx-post="/signup"
+ 		hx-swap="innerHTML"
+ 		hx-target="#signup-form"
+ 		hx-indicator=".htmx-indicator"
+	>
+		@shared.Loading()
 		<div class="grid gap-5">
 			@shared.Input(shared.InputConfig{
 				Id: "username",
@@ -77,7 +85,7 @@ templ Index() {
 		<div class="min-h-screen w-full flex justify-center bg-gray-50">
 			<div class="max-w-sm w-full mt-20">
 				<h1 class="text-center text-2xl font-bold mb-5">Sign Up</h1>
-				<div id="signup-form" class="bg-white shadow-md rounded-lg px-8 py-6">
+				<div id="signup-form" class="bg-white shadow-md rounded-lg overflow-hidden">
 					@Form(SignupParams{Errors: SignupErrors{}})
 				</div>
 			</div>
