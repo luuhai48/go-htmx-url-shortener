@@ -3,6 +3,7 @@ package models
 import "luuhai48/short/db"
 
 // Types =======================================================================
+
 type AccountState string
 
 const (
@@ -11,6 +12,7 @@ const (
 )
 
 // Models ======================================================================
+
 type User struct {
 	BaseModel
 
@@ -21,6 +23,17 @@ type User struct {
 }
 
 // Functions ===================================================================
+
 func CreateUser(u *User) error {
 	return db.DB.Create(&u).Error
+}
+
+func CheckUsernameExists(username string) (bool, error) {
+	var exists bool
+	if err := db.DB.Model(&User{}).
+		Select("count(*) > 0").Where("username = ?", username).
+		Find(&exists).Error; err != nil {
+		return false, err
+	}
+	return exists, nil
 }

@@ -1,6 +1,9 @@
 package handlers
 
 import (
+	"strings"
+
+	"luuhai48/short/models"
 	"luuhai48/short/utils"
 	"luuhai48/short/views/signup"
 
@@ -11,37 +14,61 @@ func HandleGetSignupIndex(c *fiber.Ctx) error {
 	return render(c, signup.Index())
 }
 
-func ValidatePostSignup(username string, password string, passwordConfirm string) (hasError bool, errors signup.SignupErrors) {
-	if err := utils.ValidateUsernameFormat(username); err != nil {
-		hasError = true
-		errors.Username = err.Error()
+func ValidatePostSignup(params *signup.SignupParams) {
+	if err := utils.ValidateUsernameFormat(params.Username); err != nil {
+		params.HasError = true
+		params.Errors.Username = err.Error()
 	}
-	if err := utils.ValidatePasswordFormat(password); err != nil {
-		hasError = true
-		errors.Password = err.Error()
+	if err := utils.ValidatePasswordFormat(params.Password); err != nil {
+		params.HasError = true
+		params.Errors.Password = err.Error()
 	}
-	if passwordConfirm != password {
-		hasError = true
-		errors.PasswordConfirm = "Confirm password doesn't match"
+	if params.PasswordConfirm != params.Password {
+		params.HasError = true
+		params.Errors.PasswordConfirm = "Confirm password doesn't match"
 	}
-	return hasError, errors
+
+	usernameExisted, err := models.CheckUsernameExists(params.Username)
+	if err != nil {
+		params.HasError = true
+		params.Errors.Username = err.Error()
+		return
+	}
+	if usernameExisted {
+		params.HasError = true
+		params.Errors.Username = "Username duplicated!"
+		return
+	}
+
+	hashedPassword, err := utils.HashPassword(params.Password)
+	if err != nil {
+		params.Errors.Password = err.Error()
+		return
+	}
+	params.Password = hashedPassword
 }
 
 func HandlePostSignup(c *fiber.Ctx) error {
-	username := c.FormValue("username")
+	username := strings.Trim(strings.ToLower(c.FormValue("username")), " ")
 	password := c.FormValue("password")
 	passwordConfirm := c.FormValue("passwordConfirm")
 
-	hasError, errors := ValidatePostSignup(username, password, passwordConfirm)
-	if !hasError {
-		return render(c, signup.Success())
-	}
-
-	return render(c, signup.Form(signup.SignupParams{
+	params := signup.SignupParams{
 		Username:        username,
 		Password:        password,
 		PasswordConfirm: passwordConfirm,
-		HasError:        hasError,
-		Errors:          errors,
-	}))
+		HasError:        false,
+		Errors:          signup.SignupErrors{},
+	}
+	ValidatePostSignup(&params)
+	if !params.HasError {
+		models.CreateUser(&models.User{
+			Username: params.Username,
+			Password: params.Password,
+		})
+
+		return render(c, signup.Success())
+	}
+
+	return render(c, signup.Form(params))
 }

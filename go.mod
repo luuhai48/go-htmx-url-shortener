@@ -10,6 +10,7 @@ require (
 	github.com/google/uuid v1.5.0
 	github.com/urfave/cli/v2 v2.27.1
 	github.com/valyala/fasthttp v1.51.0
+	golang.org/x/crypto v0.18.0
 	gorm.io/driver/sqlite v1.5.4
 	gorm.io/gorm v1.25.5
 )
