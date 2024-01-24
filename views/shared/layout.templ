@@ -27,6 +27,7 @@ templ Layout(config ...Config) {
 			<link rel="icon" href="/static/favicon.png"/>
 			<link rel="stylesheet" href={ static.GetFilePath("style.css") }/>
 			<script defer src={ static.GetFilePath("htmx-1.9.10.min.js") }></script>
+			<script defer src={ static.GetFilePath("alpinejs-3.13.4.min.js") }></script>
 			if len(config) > 0 {
 				if config[0].Title != "" {
 					<title>{ config[0].Title }</title>

@@ -1,5 +1,7 @@
 package shared
 
+import "fmt"
+
 type InputConfig struct {
 	Id          string
 	Type        string
@@ -27,20 +29,35 @@ templ Input(config InputConfig) {
 				}
 			</label>
 		}
-		<input
- 			id={ config.Id }
- 			name={ config.Id }
- 			type={ config.Type }
- 			class={ "block w-full border border-gray-400 rounded px-3 py-2", config.Classes }
- 			placeholder={ config.Placeholder }
- 			if config.Disabled {
-				disabled
+		<div
+ 			class="w-full relative input-wrapper"
+ 			x-data={ fmt.Sprintf("{reveal: false, type: '%s'}", config.Type) }
+		>
+			<input
+ 				id={ config.Id }
+ 				name={ config.Id }
+ 				:type="reveal ? 'text' : type"
+ 				class={ "block w-full border border-gray-400 rounded px-3 py-2", config.Classes }
+ 				placeholder={ config.Placeholder }
+ 				if config.Disabled {
+					disabled
+				}
+ 				if config.Required {
+					required
+				}
+ 				value={ config.Value }
+			/>
+			if config.Type == "password" {
+				<button type="button" tabindex="-1" class="absolute right-2 top-1/2 -translate-y-1/2" @click="reveal = !reveal">
+					<i x-show="!reveal">
+						@IconEye("18", "18")
+					</i>
+					<i x-show="reveal">
+						@IconEyeClosed("18", "18")
+					</i>
+				</button>
 			}
- 			if config.Required {
-				required
-			}
- 			value={ config.Value }
-		/>
+		</div>
 		if config.Error != "" {
 			<p class="text-red-500 text-sm">{ config.Error }</p>
 		}
