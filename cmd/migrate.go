@@ -14,6 +14,7 @@ func getModels() []interface{} {
 		make([]interface{}, 0),
 
 		&models.User{},
+		&models.Session{},
 	)
 }
 

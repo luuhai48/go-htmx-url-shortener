@@ -5,11 +5,13 @@ import "luuhai48/short/views/shared"
 type SigninErrors struct {
 	Username string
 	Password string
+	General  string
 }
 
 type SigninParams struct {
 	Username string
 	Password string
+	Remember string
 	HasError bool
 	Errors   SigninErrors
 }
@@ -43,12 +45,20 @@ templ Form(params SigninParams) {
 				Value: params.Password,
 				Error: params.Errors.Password,
 			})
+			@shared.Checkbox(shared.CheckboxConfig{
+				Id: "remember",
+				Label: "Remember me",
+				Value: params.Remember,
+			})
 			@shared.Button(shared.ButtonConfig{
 				Id: "submit-btn",
 				Type: "submit",
 				Classes: "mt-4",
 			}) {
 				Sign In
+			}
+			if params.Errors.General != "" {
+				<p class="mt-1 text-red-500 text-sm">{ params.Errors.General }</p>
 			}
 		</div>
 	</form>

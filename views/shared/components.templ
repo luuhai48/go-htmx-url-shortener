@@ -98,3 +98,26 @@ templ Loading() {
 		</svg>
 	</div>
 }
+
+type CheckboxConfig struct {
+	Id      string
+	Classes string
+	Value   string
+	Label   string
+}
+
+templ Checkbox(config CheckboxConfig) {
+	<div class={ "flex items-center gap-2", config.Classes }>
+		<input
+ 			type="checkbox"
+ 			id={ config.Id }
+ 			name={ config.Id }
+ 			if config.Value == "on" {
+				checked
+			}
+		/>
+		if config.Label != "" {
+			<label for={ config.Id }>{ config.Label }</label>
+		}
+	</div>
+}

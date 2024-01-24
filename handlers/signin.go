@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"errors"
-	"log/slog"
 	"strings"
+	"time"
 
 	"luuhai48/short/models"
 	"luuhai48/short/utils"
@@ -47,10 +47,12 @@ func ValidatePostSignin(params *signin.SigninParams) *models.User {
 func HandlePostSignin(c *fiber.Ctx) error {
 	username := strings.Trim(strings.ToLower(c.FormValue("username")), " ")
 	password := c.FormValue("password")
+	remember := c.FormValue("remember", "off")
 
 	params := signin.SigninParams{
 		Username: username,
 		Password: password,
+		Remember: remember,
 		HasError: false,
 		Errors:   signin.SigninErrors{},
 	}
@@ -58,7 +60,31 @@ func HandlePostSignin(c *fiber.Ctx) error {
 	user := ValidatePostSignin(&params)
 
 	if !params.HasError {
-		slog.Info(user.ID)
+		session := &models.Session{
+			UserID:     user.ID,
+			Username:   user.Username,
+			ValidUntil: time.Now().Add(time.Hour * 24 * 30),
+		}
+		if err := models.CreateSession(session); err != nil {
+			params.Errors.General = err.Error()
+			return render(c, signin.Form(params))
+		}
+
+		cookie := &fiber.Cookie{
+			Name:        "session",
+			Value:       session.ID,
+			Path:        "/",
+			Secure:      true,
+			HTTPOnly:    true,
+			SessionOnly: true,
+		}
+
+		if remember == "on" {
+			cookie.SessionOnly = false
+			cookie.Expires = session.ValidUntil
+		}
+
+		c.Cookie(cookie)
 		return redirect(c, "/")
 	}
 
