@@ -36,3 +36,7 @@ func FindSessionByID(ID string) (*Session, error) {
 func DeleteSessionById(ID string) error {
 	return db.DB.Where("id = ?", ID).Delete(&Short{}).Error
 }
+
+func DeleteOldSessions() error {
+	return db.DB.Delete(&Session{}, "valid_until < ?", time.Now()).Error
+}

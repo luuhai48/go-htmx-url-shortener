@@ -10,6 +10,7 @@ import (
 	"luuhai48/short/handlers"
 	"luuhai48/short/static"
 	"luuhai48/short/utils"
+	"luuhai48/short/workers"
 
 	"github.com/bytedance/sonic"
 	"github.com/gofiber/fiber/v2"
@@ -38,6 +39,9 @@ func startServer(ctx *cli.Context) error {
 		if err := migrateDB(); err != nil {
 			log.Fatal(err)
 		}
+
+		cronjob := workers.CreateCleanupSessionCronjob()
+		defer cronjob.Stop()
 	}
 
 	server.Get("", handlers.OptionalAuthMiddleware, handlers.HandleGetHomeIndex)
