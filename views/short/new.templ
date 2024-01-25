@@ -1,0 +1,62 @@
+package short
+
+import "luuhai48/short/views/shared"
+
+type ShortErrors struct {
+	Url string
+}
+
+type ShortParams struct {
+	Url      string
+	HasError bool
+	Errors   ShortErrors
+}
+
+templ NewForm(params ShortParams) {
+	<form
+ 		class="relative px-8 py-6"
+ 		method="POST"
+ 		hx-post="/short/new"
+ 		hx-swap="innerHTML"
+ 		hx-target="#short-form"
+ 		hx-indicator=".htmx-indicator"
+	>
+		@shared.Loading()
+		<div class="grid gap-5">
+			@shared.Input(shared.InputConfig{
+				Id: "url",
+				Type: "text",
+				Placeholder: "Enter the URL to be shorten",
+				Label: "URL",
+				Required: true,
+				Value: params.Url,
+				Error: params.Errors.Url,
+			})
+			@shared.Button(shared.ButtonConfig{
+				Id: "submit-btn",
+				Type: "submit",
+				Classes: "mt-4",
+			}) {
+				Shorten
+			}
+		</div>
+	</form>
+}
+
+templ NewShort() {
+	@shared.Layout(shared.Config{
+		Title: "Shorten new URL",
+	}) {
+		<div class="min-h-screen w-full flex justify-center bg-gray-50">
+			<div class="max-w-sm w-full mt-20">
+				<h1 class="text-center text-2xl font-bold mb-5">Shorten New URL</h1>
+				<div class="flex items-center justify-end py-5">
+					<a href="/short" class="bg-gray-600 text-white rounded-full px-3 py-1 hover:bg-gray-500 transition-all">Back</a>
+				</div>
+				<div id="short-form" class="bg-white shadow-md rounded-lg overflow-hidden">
+					@NewForm(ShortParams{Errors: ShortErrors{}})
+				</div>
+			</div>
+		</div>
+	}
+}

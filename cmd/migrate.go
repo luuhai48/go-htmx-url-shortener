@@ -15,6 +15,7 @@ func getModels() []interface{} {
 
 		&models.User{},
 		&models.Session{},
+		&models.Short{},
 	)
 }
 

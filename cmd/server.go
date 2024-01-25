@@ -48,7 +48,10 @@ func startServer(ctx *cli.Context) error {
 	server.Get("/signin", handlers.HandleGetSigninIndex)
 	server.Post("/signin", handlers.HandlePostSignin)
 
-	server.Get("/_url", handlers.AuthMiddleware, handlers.HandleUrlHomeIndex)
+	server.Get("/short", handlers.AuthMiddleware, handlers.HandleShortIndex)
+	server.Delete("short", handlers.AuthMiddleware, handlers.HandleDeleteShort)
+	server.Get("/short/new", handlers.AuthMiddleware, handlers.HandleNewShortIndex)
+	server.Post("/short/new", handlers.AuthMiddleware, handlers.HandlePostNewShort)
 
 	server.Use(
 		"/static",

@@ -17,9 +17,14 @@ func AuthMiddleware(c *fiber.Ctx) error {
 	}
 
 	session, err := models.FindSessionByID(cookie)
-	if err != nil || session.ValidUntil.Before(time.Now()) {
+	if err != nil || !session.Valid || session.ValidUntil.Before(time.Now()) {
 		return redirect(c, signinPath)
 	}
+
+	c.Locals("user", fiber.Map{
+		"username": session.Username,
+		"id":       session.UserID,
+	})
 
 	return c.Next()
 }

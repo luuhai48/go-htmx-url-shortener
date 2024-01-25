@@ -1,6 +1,6 @@
 module luuhai48/short
 
-go 1.21.6
+go 1.21
 
 require (
 	github.com/a-h/templ v0.2.513
@@ -8,6 +8,7 @@ require (
 	github.com/go-passwd/validator v0.0.0-20180902184246-0b4c967e436b
 	github.com/gofiber/fiber/v2 v2.52.0
 	github.com/google/uuid v1.5.0
+	github.com/teris-io/shortid v0.0.0-20220617161101-71ec9f2aa569
 	github.com/urfave/cli/v2 v2.27.1
 	github.com/valyala/fasthttp v1.51.0
 	golang.org/x/crypto v0.18.0
