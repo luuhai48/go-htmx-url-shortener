@@ -3,6 +3,7 @@ package handlers
 import (
 	"log/slog"
 	"net/url"
+	"strings"
 
 	"luuhai48/short/models"
 	"luuhai48/short/utils"
@@ -44,7 +45,7 @@ func ValidatePostNewShort(params *short.ShortParams) {
 
 func HandlePostNewShort(c *fiber.Ctx) error {
 	params := short.ShortParams{
-		Url:    c.FormValue("url"),
+		Url:    strings.Trim(c.FormValue("url"), " "),
 		Errors: short.ShortErrors{},
 	}
 
