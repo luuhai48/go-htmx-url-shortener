@@ -2,6 +2,7 @@
 
 This is a simple URL shortener project written in Golang, combined with HTMX.
 AlpineJS is there for convenient interaction.
+Sqlite is used to store all the stuffs.
 
 ![screenshot](./images/screenshot-1.png)
 
