@@ -66,6 +66,8 @@ func startServer(ctx *cli.Context) error {
 		}),
 	)
 
+	server.Get("/:ID", handlers.HandleShortDetail)
+
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
 	go func() {

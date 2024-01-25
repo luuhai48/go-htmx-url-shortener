@@ -11,6 +11,17 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+func HandleShortDetail(c *fiber.Ctx) error {
+	ID := c.Params("ID")
+
+	found, err := models.FindShortByID(ID)
+	if err != nil {
+		return redirect(c, "/")
+	}
+
+	return redirect(c, found.Url)
+}
+
 func HandleShortIndex(c *fiber.Ctx) error {
 	shorts, err := models.ListShortOfUser(c.Locals("user").(fiber.Map)["id"].(string))
 	if err != nil {
