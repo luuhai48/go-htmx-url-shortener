@@ -18,6 +18,7 @@ func AuthMiddleware(c *fiber.Ctx) error {
 
 	session, err := models.FindSessionByID(cookie)
 	if err != nil || !session.Valid || session.ValidUntil.Before(time.Now()) {
+		c.ClearCookie("session")
 		return redirect(c, signinPath)
 	}
 
@@ -27,4 +28,31 @@ func AuthMiddleware(c *fiber.Ctx) error {
 	})
 
 	return c.Next()
+}
+
+func OptionalAuthMiddleware(c *fiber.Ctx) error {
+	cookie := c.Cookies("session")
+	if cookie != "" {
+		session, err := models.FindSessionByID(cookie)
+		if err != nil || !session.Valid || session.ValidUntil.Before(time.Now()) {
+			c.ClearCookie("session")
+			return c.Next()
+		}
+
+		c.Locals("user", fiber.Map{
+			"username": session.Username,
+			"id":       session.UserID,
+		})
+	}
+
+	return c.Next()
+}
+
+func NoAuthGuard(c *fiber.Ctx) error {
+	cookie := c.Cookies("session")
+	if cookie == "" {
+		return c.Next()
+	}
+
+	return redirect(c, "/")
 }

@@ -30,5 +30,9 @@ func redirect(c *fiber.Ctx, path string, status ...int) error {
 }
 
 func HandleGetHomeIndex(c *fiber.Ctx) error {
-	return render(c, views.Index())
+	user := c.Locals("user")
+	if user == nil {
+		return render(c, views.Index())
+	}
+	return redirect(c, "/short")
 }

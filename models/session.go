@@ -32,3 +32,7 @@ func FindSessionByID(ID string) (*Session, error) {
 	}
 	return &session, nil
 }
+
+func DeleteSessionById(ID string) error {
+	return db.DB.Where("id = ?", ID).Delete(&Short{}).Error
+}

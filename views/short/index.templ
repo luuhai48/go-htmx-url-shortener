@@ -4,15 +4,29 @@ import "luuhai48/short/views/shared"
 import "luuhai48/short/models"
 import "fmt"
 
+templ Nav() {
+	<nav class="flex items-center mb-8 bg-white rounded px-4 py-2 shadow">
+		<a href="/">
+			<img src="/static/logo.webp" class="w-8 h-8 object-cover"/>
+		</a>
+		<form hx-get="/signout" class="ml-auto">
+			<button type="submit" class="bg-gray-600 text-white rounded-full px-3 py-1 hover:bg-gray-500 transition-all text-sm font-bold">
+				Sign Out
+			</button>
+		</form>
+	</nav>
+}
+
 templ Index(shorts []models.Short) {
 	@shared.Layout(shared.Config{
 		Title: "Your shortened URLs",
 	}) {
 		<div class="min-h-screen w-full flex justify-center bg-gray-50">
 			<div class="max-w-xl w-full mt-20">
-				<h1 class="text-center text-2xl font-bold mb-5">Your shortened URLs</h1>
+				@Nav()
+				<h1 class="text-center text-2xl font-bold">Your shortened URLs</h1>
 				<div class="flex items-center justify-end py-5">
-					<a href="/short/new" class="bg-green-600 text-white rounded-full px-3 py-1 hover:bg-green-500 transition-all">NEW</a>
+					<a href="/short/new" class="bg-green-600 text-white rounded-full px-3 py-1 hover:bg-green-500 transition-all text-sm font-bold">NEW</a>
 				</div>
 				<div class="flex flex-col gap-5">
 					for _, short := range shorts {

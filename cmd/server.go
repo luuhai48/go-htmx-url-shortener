@@ -40,13 +40,15 @@ func startServer(ctx *cli.Context) error {
 		}
 	}
 
-	server.Get("", handlers.HandleGetHomeIndex)
+	server.Get("", handlers.OptionalAuthMiddleware, handlers.HandleGetHomeIndex)
 
-	server.Get("/signup", handlers.HandleGetSignupIndex)
-	server.Post("/signup", handlers.HandlePostSignup)
+	server.Get("/signup", handlers.NoAuthGuard, handlers.HandleGetSignupIndex)
+	server.Post("/signup", handlers.NoAuthGuard, handlers.HandlePostSignup)
 
-	server.Get("/signin", handlers.HandleGetSigninIndex)
-	server.Post("/signin", handlers.HandlePostSignin)
+	server.Get("/signin", handlers.NoAuthGuard, handlers.HandleGetSigninIndex)
+	server.Post("/signin", handlers.NoAuthGuard, handlers.HandlePostSignin)
+
+	server.Get("/signout", handlers.AuthMiddleware, handlers.HandleGetSignOut)
 
 	server.Get("/short", handlers.AuthMiddleware, handlers.HandleShortIndex)
 	server.Delete("short", handlers.AuthMiddleware, handlers.HandleDeleteShort)
