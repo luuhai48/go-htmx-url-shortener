@@ -3,6 +3,8 @@
 This is a simple URL shortener project written in Golang, combined with HTMX.
 AlpineJS is there for convenient interaction.
 
+![screenshot](./images/screenshot-1.png)
+
 ## Description
 
 The project is just a demonstration and learn on how to create a website using very simple tech stack.
@@ -27,3 +29,4 @@ To install and use this project, follow these steps:
 1. Clone the repository.
 2. Install the necessary dependencies `go mod download`.
 3. Run the project `go run cmd/*.go` or `make`.
+4. Visit `http://localhost:3333`
