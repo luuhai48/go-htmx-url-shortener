@@ -48,14 +48,16 @@ templ NewShort() {
 		Title: "Shorten new URL",
 	}) {
 		<div class="min-h-screen w-full flex justify-center bg-gray-50">
-			<div class="max-w-xl w-full mt-20">
+			<div class="max-w-xl w-full lg:mt-20">
 				@Nav()
-				<h1 class="text-center text-2xl font-bold mb-5">Shorten New URL</h1>
-				<div class="flex items-center justify-end py-5">
-					<a href="/short" class="bg-gray-600 text-white rounded-full px-3 py-1 hover:bg-gray-500 transition-all text-sm font-bold">Back</a>
-				</div>
-				<div id="short-form" class="bg-white shadow-md rounded-lg overflow-hidden">
-					@NewForm(ShortParams{Errors: ShortErrors{}})
+				<div class="px-5 lg:px-0">
+					<h1 class="text-center text-2xl font-bold">Shorten New URL</h1>
+					<div class="flex items-center justify-end py-5">
+						<a href="/short" class="bg-gray-600 text-white rounded-full px-3 py-1 hover:bg-gray-500 transition-all text-sm font-bold">Back</a>
+					</div>
+					<div id="short-form" class="bg-white shadow-md rounded-lg overflow-hidden">
+						@NewForm(ShortParams{Errors: ShortErrors{}})
+					</div>
 				</div>
 			</div>
 		</div>
