@@ -49,6 +49,8 @@ func HandlePostNewShort(c *fiber.Ctx) error {
 		Errors: short.ShortErrors{},
 	}
 
+	ValidatePostNewShort(&params)
+
 	if !params.HasError {
 		ID, _ := utils.GenShortID()
 
